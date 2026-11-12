@@ -3,10 +3,12 @@ name: Selenium Java Tests and Docker Publish
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
 
   pull_request:
-    branches: ["main"]
+    branches:
+      - main
 
 jobs:
   selenium-test:
