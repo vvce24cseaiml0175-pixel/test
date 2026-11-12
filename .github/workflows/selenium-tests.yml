@@ -9,10 +9,7 @@ on:
 
 jobs:
 
-  # JOB 1: SELENIUM TESTING
-
   selenium-test:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -38,13 +35,8 @@ jobs:
       - name: Run Selenium Tests
         run: mvn -B clean test -Dheadless=true
 
-
-  # JOB 2: DOCKER BUILD AND PUBLISH
-
   build-and-publish-docker:
-
     needs: selenium-test
-
     runs-on: ubuntu-latest
 
     if: github.event_name == 'push'
@@ -69,7 +61,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/selenium-testng-automation:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/selenium-testng-automation:${{ github.sha }}
