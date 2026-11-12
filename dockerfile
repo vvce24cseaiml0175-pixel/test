@@ -1,13 +1,13 @@
+# Base image with Java 17 and Maven
 FROM maven:3.9.9-eclipse-temurin-17
 
+# Set working directory
 WORKDIR /app
 
-# Install Google Chrome dependencies
-
+# Install Google Chrome and required dependencies
 RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
     curl \
+    gnupg \
     ca-certificates \
     fonts-liberation \
     libglib2.0-0 \
@@ -24,18 +24,18 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y google-chrome-stable \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy Maven project
-
-COPY pom.xml .
-
-COPY testng.xml .
-
-COPY src ./src
-
-# Chrome configuration
-
+# Set Chrome binary path
 ENV CHROME_BIN=/usr/bin/google-chrome
 
-# Execute Selenium TestNG tests
+# Copy Maven configuration
+COPY pom.xml .
 
+# Download dependencies
+RUN mvn dependency:go-offline -B
+
+# Copy project source code and TestNG configuration
+COPY src ./src
+COPY testng.xml .
+
+# Run Selenium TestNG tests in headless mode
 CMD ["mvn", "clean", "test", "-Dheadless=true"]
