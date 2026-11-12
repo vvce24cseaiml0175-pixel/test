@@ -1,4 +1,3 @@
-```yaml
 name: Selenium Java Tests and Docker Publish
 
 on:
