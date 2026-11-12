@@ -1,3 +1,4 @@
+```yaml
 name: Selenium Java Tests and Docker Publish
 
 on:
@@ -8,12 +9,10 @@ on:
     branches: ["main"]
 
 jobs:
-
   selenium-test:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
@@ -38,11 +37,9 @@ jobs:
   build-and-publish-docker:
     needs: selenium-test
     runs-on: ubuntu-latest
-
     if: github.event_name == 'push'
 
     steps:
-
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
@@ -64,3 +61,4 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/selenium-testng-automation:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/selenium-testng-automation:${{ github.sha }}
+```
